@@ -1,7 +1,12 @@
 import React from 'react';
+import Column from './Column';
 
 const Board = () => {
-    return <h1>Hello World</h1>;
+    return (
+        <table>
+            <Column />
+        </table>
+    );
 };
 
-export default App;
+export default Board;
