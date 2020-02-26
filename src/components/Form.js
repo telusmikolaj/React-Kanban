@@ -1,28 +1,20 @@
 import React from 'react';
+import { useForm } from "react-hook-form";
+
 
 const Form = () => {
-    const handleChange = e => {
-        e.preventDefault();
-    };
+    const { handleSubmit, register, errors } = useForm();
+
+    const onSubmit = data => console.log(data);
+    console.log(errors);
     return (
-        <div>
-            <h3>Add Task</h3>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">
-                        Task Name
-                        <input id="name" type="text" name="name" onChange={handleChange} value={name} />
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="user">
-                        User
-                        <input id="user" type="text" name="user" onChange={handleChange} value={user} />
-                    </label>
-                </div>
-                <button type="submit">Sign Up</button>
-            </form>
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="text" placeholder="Task name" name="Task name" ref={register({required: true, min: 2, maxLength: 80})} />
+        <input type="text" placeholder="Description" name="Description" ref={register({required: true, min: 3, maxLength: 100})} />
+        <input type="text" placeholder="User" name="User" ref={register({required: true, min: 2, maxLength: 100})} />
+  
+        <input type="submit" />
+        </form>
     );
 };
 

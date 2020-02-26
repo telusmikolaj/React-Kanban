@@ -3,18 +3,13 @@ import Task from './Task';
 
 const Column = () => {
     return (
-        <>
+        <ColumnsContext.Consumer>
+            { name => (
             <tr>
-                <th>Pending</th>
-                <th>Analysis - Doing</th>
-                <th>Analysis - Done</th>
-                <th>Development - Doing</th>
-                <th>Development - Done</th>
-                <th>Test</th>
-                <th>Deploy</th>
+                <th>name</th>
             </tr>
-            <Task />
-        </>
+            )}
+        </ColumnsContext.Consumer>
     );
 };
 

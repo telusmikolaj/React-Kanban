@@ -1,28 +1,19 @@
 // ./src/components/App.js
 import React, { useState } from 'react';
 import Board from './Board';
+import defaultColumns from './defaultColumns';
+
+const ColumnsContext = React.createContext(defaultColumns);
 
 const App = () => {
-    const [task, setTask] = useState({});
-    const [column, setColumn] = useState({});
+    // const [tasks, setTask] = useState({});
+    const [columns, setColumn] = useState(defaultColumns);
+    console.log(columns);
     return (
         <div>
-            <Board />
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">
-                        Task Name
-                        <input id="name" type="text" name="name" onChange={handleChange} value={name} />
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="user">
-                        User
-                        <input id="user" type="text" name="user" onChange={handleChange} value={user} />
-                    </label>
-                </div>
-                <button type="submit">Sign Up</button>
-            </form>
+            <ColumnsContext.Provider>
+                <Board />
+            </ColumnsContext.Provider>
         </div>
     );
 };
