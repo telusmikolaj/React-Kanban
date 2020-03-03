@@ -1,19 +1,18 @@
 // ./src/components/App.js
-import React, { useState } from 'react';
+import React from 'react';
 import Board from './Board';
 import defaultColumns from './defaultColumns';
-
-const ColumnsContext = React.createContext(defaultColumns);
+import ColumnContext from '../context';
 
 const App = () => {
-    // const [tasks, setTask] = useState({});
-    const [columns, setColumn] = useState(defaultColumns);
-    console.log(columns);
+    const { Provider } = ColumnContext;
+    // const [task, setTask] = useState({});
+    // const [column, setColumn] = useState({});
     return (
         <div>
-            <ColumnsContext.Provider>
+            <Provider value={defaultColumns}>
                 <Board />
-            </ColumnsContext.Provider>
+            </Provider>
         </div>
     );
 };

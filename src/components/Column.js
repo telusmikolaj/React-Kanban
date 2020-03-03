@@ -1,15 +1,17 @@
 import React from 'react';
-import Task from './Task';
+import ColumnContext from '../context';
 
 const Column = () => {
+    const { Consumer } = ColumnContext;
+
     return (
-        <ColumnsContext.Consumer>
-            { name => (
-            <tr>
-                <th>name</th>
-            </tr>
-            )}
-        </ColumnsContext.Consumer>
+        <Consumer>
+            {value =>
+                value.map(item => {
+                    return item;
+                })
+            }
+        </Consumer>
     );
 };
 
