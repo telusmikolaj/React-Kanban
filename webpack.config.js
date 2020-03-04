@@ -26,6 +26,18 @@ module.exports = {
                 // najpierw będzie to [eslint-loader]
                 // potem dopiero [babel-loader]
             },
+            {
+                test: /\.css$/i,
+                // wszystkie pliki, których nazwa
+                // kończy się na .css
+                use: [
+                    'style-loader',
+                    // dodaj odczytaną zawartość
+                    // do znacznika <style/>
+                    'css-loader',
+                    // odczytaj plik CSS
+                ],
+            },
         ],
         // obecnie brak dodatkowych ustawień
     },
