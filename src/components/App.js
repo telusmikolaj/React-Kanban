@@ -2,18 +2,21 @@
 import React from 'react';
 import Board from './Board';
 import defaultColumns from './defaultColumns';
+
 import ColumnContext from '../context';
+
 import './css/app.css';
 
 const App = () => {
-    const { Provider } = ColumnContext;
+    const { ColumnProvider } = ColumnContext;
+
     // const [task, setTask] = useState({});
     // const [column, setColumn] = useState({});
     return (
         <div className="app">
-            <Provider value={defaultColumns}>
+            <ColumnProvider value={defaultColumns}>
                 <Board />
-            </Provider>
+            </ColumnProvider>
         </div>
     );
 };
