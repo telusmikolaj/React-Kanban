@@ -1,19 +1,19 @@
 import React from 'react';
-import TaskContext from './TaskContext';
+import './css/task.css';
 
-const Task = () => {
-    const { TaskConsumer } = TaskContext;
+const Task = (props) => {
+    
+     
+    const renderTasks = props.defaultTasks.map((task) =>{
+        if(props.columnID === task.idColumn){
+            
+            return <div className="task">{task.name}</div>
+        }
+    }
+  );
 
     return (
-        <TaskConsumer>
-            {tasks =>
-                tasks.map(task => (
-                    <div className="task">
-                        <h1>{task.name}</h1>
-                    </div>
-                ))
-            }
-        </TaskConsumer>
+       <div>{renderTasks}</div>
     );
 };
 

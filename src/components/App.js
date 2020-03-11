@@ -1,22 +1,24 @@
 // ./src/components/App.js
-import React from 'react';
+import React,{useState} from 'react';
 import Board from './Board';
 import defaultColumns from './defaultColumns';
+import defaultTasks from './defaultTasks';
+
 
 import ColumnContext from '../context';
 
 import './css/app.css';
 
-const App = () => {
-    const { ColumnProvider } = ColumnContext;
+const App = (props) => {
+    const { Provider } = ColumnContext;
 
-    // const [task, setTask] = useState({});
-    // const [column, setColumn] = useState({});
+    const [task, setTask] = useState(defaultTasks);
+    const [column, setColumn] = useState(defaultColumns);
     return (
         <div className="app">
-            <ColumnProvider value={defaultColumns}>
-                <Board />
-            </ColumnProvider>
+            <Provider value={column}>
+                <Board defaultTasks={defaultTasks} />
+            </Provider>
         </div>
     );
 };
