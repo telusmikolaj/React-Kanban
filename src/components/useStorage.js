@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-
-function useStorage(localItem){
-    const[loc,setState] = useState(localStorage.getItem(localItem));
-
-    function setLoc(newItem){
-        localStorage.setItem(localItem,newItem);
+function useStorage(localItem) {
+    if (typeof window !== 'undefined') {
+        localStorage.setItem('myCat', 'Tom');
     }
 
-    return [loc,setLoc];
+    function setLoc(newItem) {
+        localStorage.setItem(localItem, newItem);
+    }
+
+    return [loc, setLoc];
 }
