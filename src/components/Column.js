@@ -17,8 +17,7 @@ const Column = props => {
                             tasks={props.tasks}
                             canMoveLeft={item.id !== 1}
                             canMoveRight={item.id !== 7}
-                            moveLeft={props.moveLeft}
-                            moveRight={props.moveRight}
+                            moveTask={props.moveTask}
                         />
                     </div>
                 ))
