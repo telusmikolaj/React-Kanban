@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
 function useStorage(localItem) {
-    if (typeof window !== 'undefined') {
-        localStorage.setItem('myCat', 'Tom');
-    }
+    const [loc, setState] = useState(localStorage.getItem(localItem));
 
     function setLoc(newItem) {
         localStorage.setItem(localItem, newItem);

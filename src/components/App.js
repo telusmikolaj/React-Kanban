@@ -10,21 +10,39 @@ import './css/app.css';
 
 const App = props => {
     const { Provider } = ColumnContext;
-    const [task, setTask] = useState(defaultTasks);
+    const [tasks, setTasks] = useState(defaultTasks);
 
     useEffect(() => {
-        localStorage.setItem('task', JSON.stringify(task));
-    }, [task]);
+        localStorage.setItem('task', JSON.stringify(tasks));
+    }, [tasks]);
 
-    const moveLeft = e => {
-        e.preventDefault();
-        console.log(task);
+    const moveLeft = id => {
+        const updatedTasks = tasks.map(task => {
+            if (task.id == id) {
+                const copyTask = { ...task };
+                copyTask.idColumn -= 1;
+                return copyTask;
+            }
+            return task;
+        });
+        setTasks(updatedTasks);
+    };
+    const moveRight = id => {
+        const updatedTasks = tasks.map(task => {
+            if (task.id == id) {
+                const copyTask = { ...task };
+                copyTask.idColumn += 1;
+                return copyTask;
+            }
+            return task;
+        });
+        setTasks(updatedTasks);
     };
     const [column, setColumn] = useState(defaultColumns);
     return (
         <div className="app">
             <Provider value={column}>
-                <Board defaultTasks={defaultTasks} moveLeft={moveLeft} />
+                <Board tasks={tasks} moveLeft={moveLeft} moveRight={moveRight} />
             </Provider>
         </div>
     );

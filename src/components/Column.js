@@ -14,10 +14,11 @@ const Column = props => {
                         <h1>{item.name}</h1>
                         <Task
                             columnID={item.id}
-                            defaultTasks={props.defaultTasks}
+                            tasks={props.tasks}
                             canMoveLeft={item.id !== 1}
                             canMoveRight={item.id !== 7}
                             moveLeft={props.moveLeft}
+                            moveRight={props.moveRight}
                         />
                     </div>
                 ))
