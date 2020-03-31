@@ -8,10 +8,17 @@ import ColumnContext from '../context';
 
 import './css/app.css';
 
+//const TaskContext = React.createContext();
+
 const App = props => {
-    const { Provider } = ColumnContext;
     const [tasks, setTasks] = useState(defaultTasks);
     const [column, setColumn] = useState(defaultColumns);
+    const { Provider } = ColumnContext;
+
+    useEffect(() => {
+        const currentTask = JSON.parse(localStorage.getItem('task'));
+        setTasks(currentTask);
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('task', JSON.stringify(tasks));

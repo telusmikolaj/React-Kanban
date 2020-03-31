@@ -2,7 +2,7 @@ import React from 'react';
 import './css/task.css';
 
 const Task = props => {
-    const { tasks, canMoveLeft, canMoveRight, columnID, moveTask } = props;
+    const { tasks, columnID, moveTask, canMoveLeft, canMoveRight } = props;
     const renderTasks = tasks.map(task => {
         if (columnID === task.idColumn) {
             return (
