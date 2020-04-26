@@ -27,8 +27,9 @@ const App = props => {
 
     const onSubmit = data => {
         const { name, user } = data;
+        const lastItemID = getLastItemID();
         const newTask = {
-            id: 20,
+            id: lastItemID + 1,
             name,
             idColumn: 1,
             user,
@@ -39,9 +40,18 @@ const App = props => {
         updatedTasks.push(newTask);
 
         setTasks(updatedTasks);
-        console.log(tasks);
     };
 
+    const getLastItemID = () => {
+        const [lastItem] = [...tasks].slice(-1);
+
+        return lastItem.id;
+    };
+
+    const deleteTask = id => {
+        const updatedTasks = tasks.filter(item => item.id !== id);
+        setTasks(updatedTasks);
+    };
     const moveTask = (id, direction) => {
         const updatedTasks = tasks.map(task => {
             if (task.id == id) {
@@ -60,10 +70,10 @@ const App = props => {
 
     return (
         <div className="app">
+            <h1 class="app-name has-gradient-text">kanban</h1>
             <Provider value={column}>
-                <Board tasks={tasks} moveTask={moveTask} />
+                <Board tasks={tasks} moveTask={moveTask} deleteTask={deleteTask} />
             </Provider>
-            <Form onSubmit={onSubmit} />
         </div>
     );
 };

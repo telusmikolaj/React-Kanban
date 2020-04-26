@@ -7,22 +7,27 @@ const Column = props => {
     const { Consumer } = ColumnContext;
 
     return (
-        <Consumer>
-            {value =>
-                value.map(item => (
-                    <div className="column" id={item.id}>
-                        <h1>{item.name}</h1>
-                        <Task
-                            columnID={item.id}
-                            tasks={props.tasks}
-                            canMoveLeft={item.id !== 1}
-                            canMoveRight={item.id !== 7}
-                            moveTask={props.moveTask}
-                        />
-                    </div>
-                ))
-            }
-        </Consumer>
+        <div className="board-columns">
+            <Consumer>
+                {value =>
+                    value.map(item => (
+                        <div className="board-column" id={item.id}>
+                            <div className="column-title">{item.name}</div>
+                            <div className="tasks-container">
+                                <Task
+                                    columnID={item.id}
+                                    tasks={props.tasks}
+                                    canMoveLeft={item.id !== 1}
+                                    canMoveRight={item.id !== 7}
+                                    moveTask={props.moveTask}
+                                    deleteTask={props.deleteTask}
+                                />
+                            </div>
+                        </div>
+                    ))
+                }
+            </Consumer>
+        </div>
     );
 };
 

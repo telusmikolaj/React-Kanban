@@ -2,9 +2,11 @@ const path = require('path');
 // importuję bibliotękę [path] z [node.js]
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // importuję odpowiedni plugin
+
 module.exports = {
     entry: './src/app.js',
     // definiuje plik wejściowy
+
     output: {
         path: path.resolve(__dirname, 'build'),
         // definiuje ścieżką wyjściową
@@ -41,6 +43,7 @@ module.exports = {
         ],
         // obecnie brak dodatkowych ustawień
     },
+
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
