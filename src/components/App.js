@@ -13,7 +13,8 @@ import './css/app.css';
 
 const App = props => {
     const [tasks, setTasks] = useState(defaultTasks);
-    const [column, setColumn] = useState(defaultColumns);
+    const [columns, setColumn] = useState(defaultColumns);
+    const [isEmpty, setIsEmpty] = useState(true);
     const { Provider } = ColumnContext;
 
     useEffect(() => {
@@ -23,11 +24,20 @@ const App = props => {
 
     useEffect(() => {
         localStorage.setItem('task', JSON.stringify(tasks));
+        console.log(tasks);
     }, [tasks]);
+    useEffect(() => {
+        console.log(columns);
+    }, [columns]);
 
     const onSubmit = data => {
         const { name, user } = data;
-        const lastItemID = getLastItemID();
+        let lastItemID = 0;
+        setIsEmpty(false);
+        if (!isEmpty) {
+            lastItemID = getLastItemID();
+        }
+        console.log(isEmpty);
         const newTask = {
             id: lastItemID + 1,
             name,
@@ -36,10 +46,22 @@ const App = props => {
         };
 
         const updatedTasks = [...tasks];
-        console.log(updatedTasks);
         updatedTasks.push(newTask);
 
         setTasks(updatedTasks);
+        updateColumnSpace(newTask.idColumn);
+    };
+
+    const updateColumnSpace = columndID => {
+        const updatedColumns = columns.map(column => {
+            if (columndID == column.id) {
+                const columnCopy = { ...column };
+                columnCopy.activeTasks += 1;
+                return columnCopy;
+            }
+            return column;
+        });
+        setColumn(updatedColumns);
     };
 
     const getLastItemID = () => {
@@ -51,6 +73,15 @@ const App = props => {
     const deleteTask = id => {
         const updatedTasks = tasks.filter(item => item.id !== id);
         setTasks(updatedTasks);
+    };
+
+    const canMoveToNextColumn = task => {
+        const nextColumnID = task.idColumn + 1;
+        const nextColumn = columns.filter(item => item.id == nextColumnID);
+        console.log(nextColumn.activeTasks);
+        const isLimitReached = nextColumn.activeTasks == nextColumn.limit;
+        const isNextColumn = task.idColumn !== 7;
+        return isLimitReached && isNextColumn;
     };
     const moveTask = (id, direction) => {
         const updatedTasks = tasks.map(task => {
@@ -71,8 +102,14 @@ const App = props => {
     return (
         <div className="app">
             <h1 class="app-name has-gradient-text">kanban</h1>
-            <Provider value={column}>
-                <Board tasks={tasks} moveTask={moveTask} deleteTask={deleteTask} />
+            <Provider value={columns}>
+                <Board
+                    tasks={tasks}
+                    moveTask={moveTask}
+                    deleteTask={deleteTask}
+                    canMoveToNextColumn={canMoveToNextColumn}
+                />
+                <Form onSubmit={onSubmit} />
             </Provider>
         </div>
     );

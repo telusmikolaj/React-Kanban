@@ -9,7 +9,12 @@ const Board = props => {
                 <p className="board-name">Board Name</p>
             </div>
             <div className="board-wrapper">
-                <Column tasks={props.tasks} moveTask={props.moveTask} deleteTask={props.deleteTask} />
+                <Column
+                    tasks={props.tasks}
+                    moveTask={props.moveTask}
+                    deleteTask={props.deleteTask}
+                    canMoveToNextColumn={props.canMoveToNextColumn}
+                />
             </div>
         </div>
     );

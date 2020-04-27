@@ -21,6 +21,7 @@ const Column = props => {
                                     canMoveRight={item.id !== 7}
                                     moveTask={props.moveTask}
                                     deleteTask={props.deleteTask}
+                                    canMoveToNextColumn={props.canMoveToNextColumn}
                                 />
                             </div>
                         </div>

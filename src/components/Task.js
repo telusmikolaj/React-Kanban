@@ -2,7 +2,7 @@ import React from 'react';
 import './css/task.css';
 
 const Task = props => {
-    const { tasks, columnID, moveTask, canMoveLeft, canMoveRight, deleteTask } = props;
+    const { tasks, columnID, moveTask, canMoveLeft, canMoveRight, deleteTask, canMoveToNextColumn } = props;
     const renderTasks = tasks.map(task => {
         if (columnID === task.idColumn) {
             return (
@@ -15,7 +15,7 @@ const Task = props => {
                         )}
                         <span className="taskName">{task.name}</span>
 
-                        {canMoveRight && (
+                        {canMoveToNextColumn(task) && (
                             <button type="button" onClick={() => moveTask(task.id, 'RIGHT')}>
                                 {'>'}
                             </button>
