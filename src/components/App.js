@@ -15,6 +15,7 @@ const App = props => {
     const [tasks, setTasks] = useState(defaultTasks);
     const [columns, setColumn] = useState(defaultColumns);
     const [isEmpty, setIsEmpty] = useState(true);
+    const [lastColumnID, setLastColumnID] = useState(0);
     const { Provider } = ColumnContext;
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const App = props => {
 
     useEffect(() => {
         localStorage.setItem('task', JSON.stringify(tasks));
-        console.log(tasks);
+        //console.log(tasks);
     }, [tasks]);
     useEffect(() => {
         console.log(columns);
@@ -37,7 +38,6 @@ const App = props => {
         if (!isEmpty) {
             lastItemID = getLastItemID();
         }
-        console.log(isEmpty);
         const newTask = {
             id: lastItemID + 1,
             name,
@@ -49,18 +49,36 @@ const App = props => {
         updatedTasks.push(newTask);
 
         setTasks(updatedTasks);
-        updateColumnSpace(newTask.idColumn);
+        increseNumOfTasks(newTask.idColumn);
     };
 
-    const updateColumnSpace = columndID => {
+    const increseNumOfTasks = columndID => {
         const updatedColumns = columns.map(column => {
             if (columndID == column.id) {
+                console.log('INcrese num of taskk');
+
                 const columnCopy = { ...column };
                 columnCopy.activeTasks += 1;
                 return columnCopy;
             }
+
             return column;
         });
+        setColumn(updatedColumns);
+    };
+    const decreseNumOfTasks = columndID => {
+        const updatedColumns = columns.map(column => {
+            if (columndID == column.id) {
+                const columnCopy = { ...column };
+
+                columnCopy.activeTasks -= 1;
+
+                return columnCopy;
+            }
+
+            return column;
+        });
+        console.log(updatedColumns);
         setColumn(updatedColumns);
     };
 
@@ -76,12 +94,47 @@ const App = props => {
     };
 
     const canMoveToNextColumn = task => {
-        const nextColumnID = task.idColumn + 1;
-        const nextColumn = columns.filter(item => item.id == nextColumnID);
-        console.log(nextColumn.activeTasks);
-        const isLimitReached = nextColumn.activeTasks == nextColumn.limit;
         const isNextColumn = task.idColumn !== 7;
-        return isLimitReached && isNextColumn;
+        let isLimitReached = false;
+        if (isNextColumn) {
+            const nextColumnID = task.idColumn + 1;
+            const nextColumn = columns.find(item => item.id == nextColumnID);
+            isLimitReached = nextColumn.activeTasks == nextColumn.limit;
+            console.log(nextColumn);
+            console.log(isLimitReached);
+            console.log(isNextColumn);
+        }
+
+        return !isLimitReached && isNextColumn;
+    };
+
+    const getNextColumnID = task => {
+        let nextColumnID = task.idColumn + 1;
+        while (!isFreeSpaceInColumn(nextColumnID) || nextColumnID < 8) {
+            nextColumnID++;
+        }
+
+        return nextColumnID;
+    };
+
+    const isFreeSpaceInColumn = columnID => {
+        const column = columns.find(item => item.id == nextColumnID);
+        return column.activeTasks < column.limit;
+    };
+
+    const canMoveToPrevColumn = task => {
+        const isPrevColumn = task.idColumn !== 1;
+        let isLimitReached = false;
+        if (isPrevColumn) {
+            const prevColumnID = task.idColumn - 1;
+            const prevColumn = columns.find(item => item.id == prevColumnID);
+            isLimitReached = prevColumn.activeTasks == prevColumn.limit;
+            console.log(prevColumn);
+            console.log(isLimitReached);
+            console.log(isPrevColumn);
+        }
+
+        return !isLimitReached && isPrevColumn;
     };
     const moveTask = (id, direction) => {
         const updatedTasks = tasks.map(task => {
@@ -89,8 +142,12 @@ const App = props => {
                 const copyTask = { ...task };
                 if (direction === 'LEFT') {
                     copyTask.idColumn -= 1;
+                    increseNumOfTasks(copyTask.idColumn);
+                    decreseNumOfTasks(copyTask.idColumn + 1);
                 } else {
                     copyTask.idColumn += 1;
+                    increseNumOfTasks(copyTask.idColumn);
+                    decreseNumOfTasks(copyTask.idColumn - 1);
                 }
                 return copyTask;
             }
@@ -108,6 +165,7 @@ const App = props => {
                     moveTask={moveTask}
                     deleteTask={deleteTask}
                     canMoveToNextColumn={canMoveToNextColumn}
+                    canMoveToPrevColumn={canMoveToPrevColumn}
                 />
                 <Form onSubmit={onSubmit} />
             </Provider>

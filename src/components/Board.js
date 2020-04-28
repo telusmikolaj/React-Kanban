@@ -14,6 +14,7 @@ const Board = props => {
                     moveTask={props.moveTask}
                     deleteTask={props.deleteTask}
                     canMoveToNextColumn={props.canMoveToNextColumn}
+                    canMoveToPrevColumn={props.canMoveToPrevColumn}
                 />
             </div>
         </div>
